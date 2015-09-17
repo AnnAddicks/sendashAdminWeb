@@ -30,7 +30,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 
     var githubPayload = nga.entity('github').label('Github Payload');
     githubPayload.listView().fields([
-        nga.field('receivedTimestamp')
+        nga.field('receivedTimestamp', 'datetime')
             .label('Received'),
         nga.field('commits')
     ]);
