@@ -34,7 +34,9 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
             .label('Received'),
         nga.field('commits')
     ]);
+    githubPayload.listView().title('Github Payloads List')
     githubPayload.readOnly();
+
     admin.addEntity(githubPayload);
 
     admin.menu(nga.menu()
