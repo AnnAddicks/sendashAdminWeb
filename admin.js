@@ -14,6 +14,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
         nga.field('lastName')
             .label('Last Name')
     ]);
+    user.listView().listActions(['edit', 'delete']);
 
     user.creationView().fields([
         nga.field('email', 'email'),
@@ -27,7 +28,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 
     admin.addEntity(user);
 
-    var githubPayload = nga.entity('github');
+    var githubPayload = nga.entity('github').label('Github Payload');
     githubPayload.listView().fields([
         nga.field('receivedTimestamp')
             .label('Received'),
@@ -38,7 +39,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 
     admin.menu(nga.menu()
             .addChild(nga.menu(user).icon('<span class="glyphicon glyphicon-user"></span>'))
-            .addChild(nga.menu(githubPayload).icon('<span class="glyphicon glyphicon-pencil"></span>'))
+            .addChild(nga.menu(githubPayload).icon('<span class="glyphicon glyphicons-git-branch"></span>'))
     );
 
     // attach the admin application to the DOM and execute it
