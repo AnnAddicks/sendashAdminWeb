@@ -33,7 +33,13 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
             .label('Received'),
         nga.field('commits')
     ]);
+    githubPayload.readOnly();
     admin.addEntity(githubPayload);
+
+    admin.menu(nga.menu()
+            .addChild(nga.menu(user).icon('<span class="glyphicon glyphicon-user"></span>'))
+            .addChild(nga.menu(githubPayload).icon('<span class="glyphicon glyphicon-pencil"></span>'))
+    );
 
     // attach the admin application to the DOM and execute it
     nga.configure(admin);
