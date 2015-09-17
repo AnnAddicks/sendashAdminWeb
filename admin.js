@@ -8,12 +8,33 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     var user = nga.entity('user');
     // set the fields of the user entity list view
     user.listView().fields([
-        nga.field('firstName'),
-        nga.field('lastName'),
-        nga.field('email')
+        nga.field('email'),
+        nga.field('firstName')
+            .label('First Name'),
+        nga.field('lastName')
+            .label('Last Name')
     ]);
-    // add the user entity to the admin application
-    admin.addEntity(user)
+
+    user.creationView().fields([
+        nga.field('email', 'email'),
+        nga.field('firstName')
+            .label('First Name'),
+        nga.field('lastName')
+            .label('Last Name')
+    ]);
+    // use the same fields for the editionView as for the creationView
+    user.editionView().fields(user.creationView().fields());
+
+    admin.addEntity(user);
+
+    var githubPayload = nga.entity('github');
+    githubPayload.listView().fields([
+        nga.field('receivedTimestamp')
+            .label('Received'),
+        nga.field('commits')
+    ]);
+    admin.addEntity(githubPayload);
+
     // attach the admin application to the DOM and execute it
     nga.configure(admin);
 }]);
