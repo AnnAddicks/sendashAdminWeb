@@ -28,6 +28,76 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 
     admin.addEntity(user);
 
+
+    var client = nga.entity('client');
+    // set the fields of the user entity list view
+    client.listView().fields([
+        nga.field('id'),
+        nga.field('name')
+    ]);
+    client.listView().listActions(['edit', 'delete']);
+
+    client.creationView().fields([
+        nga.field('name')
+
+    ]);
+    // use the same fields for the editionView as for the creationView
+    client.editionView().fields(client.creationView().fields());
+    admin.addEntity(client);
+
+
+
+    var endpoint = nga.entity('endpoint');
+    // set the fields of the user entity list view
+    endpoint.listView().fields([
+        nga.field('id'),
+        nga.field('clientId'),
+        nga.field('hostName')
+            .label('Host Name'),
+        nga.field('apiKey')
+            .label('API Key'),
+        nga.field('updateScriptRequest', 'datetime')
+            .label('Last Request')
+    ]);
+    endpoint.listView().listActions(['edit', 'delete']);
+
+    endpoint.creationView().fields([
+        nga.field('clientId'),
+        nga.field('hostName')
+            .label('Host Name'),
+        nga.field('apiKey')
+            .label('API Key')
+    ]);
+    // use the same fields for the editionView as for the creationView
+    endpoint.editionView().fields(endpoint.creationView().fields());
+    admin.addEntity(endpoint);
+
+
+
+    var pendingEndpoint = nga.entity('pending-endpoint');
+    // set the fields of the user entity list view
+    pendingEndpoint.listView().fields([
+        nga.field('clientId'),
+        nga.field('hostName')
+            .label('Host Name'),
+        nga.field('apiKey')
+            .label('API Key')
+    ]);
+    pendingEndpoint.listView().listActions(['edit', 'delete']);
+
+    pendingEndpoint.creationView().fields([
+        nga.field('clientId'),
+        nga.field('hostName')
+            .label('Host Name'),
+        nga.field('apiKey')
+            .label('API Key')
+    ]);
+    // use the same fields for the editionView as for the creationView
+    pendingEndpoint.editionView().fields(pendingEndpoint.creationView().fields());
+
+    admin.addEntity(pendingEndpoint);
+
+
     var githubPayload = nga.entity('github').label('Github Payload');
     githubPayload.listView().fields([
         nga.field('receivedTimestamp', 'datetime')
@@ -44,6 +114,8 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
             .addChild(nga.menu(githubPayload).icon('<span class="glyphicon glyphicons-git-branch"></span>'))
     );
 
+
+    nga.application().debug(true);
     // attach the admin application to the DOM and execute it
     nga.configure(admin);
 }]);
