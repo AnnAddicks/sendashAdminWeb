@@ -111,7 +111,10 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 
     admin.menu(nga.menu()
             .addChild(nga.menu(user).icon('<span class="glyphicon glyphicon-user"></span>'))
-            .addChild(nga.menu(githubPayload).icon('<span class="glyphicon glyphicons-git-branch"></span>'))
+            .addChild(nga.menu(client).icon('<span class="glyphicon glyphicon-briefcase"></span>'))
+            .addChild(nga.menu(endpoint).icon('<span class="glyphicon glyphicon-hdd"></span>'))
+            .addChild(nga.menu(pendingEndpoint).icon('<span class="glyphicon glyphicon-tasks"></span>'))
+            .addChild(nga.menu(githubPayload).icon('<span class="glyphicon glyphicon-object-align-vertical"></span>'))
     );
 
 
