@@ -1,4 +1,8 @@
 var myApp = angular.module('myApp', ['ng-admin']);
+
+// custom directives
+//myApp.directive('batchApprove', require('./js/batchApprove'));
+
 myApp.config(['NgAdminConfigurationProvider', function (nga) {
     // create an admin application
     var admin = nga.application('Sendash Admin')
@@ -51,7 +55,8 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     // set the fields of the user entity list view
     endpoint.listView().fields([
         nga.field('id'),
-        nga.field('clientId'),
+        nga.field('client.name')
+            .label('Client Name'),
         nga.field('hostName')
             .label('Host Name'),
         nga.field('apiKey')
@@ -59,10 +64,16 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
         nga.field('updateScriptRequest', 'datetime')
             .label('Last Request')
     ]);
-    endpoint.listView().listActions(['edit', 'delete']);
+    endpoint.listView()
+        .listActions(['edit', 'delete'])
+        .batchActions(['<batch-approve type="accept" selection="selection"></batch-approve>',
+            '<batch-approve type="reject" selection="selection"></batch-approve>',
+            'delete']);
+
 
     endpoint.creationView().fields([
-        nga.field('clientId'),
+        nga.field('client.name')
+            .label('Client Name'),
         nga.field('hostName')
             .label('Host Name'),
         nga.field('apiKey')
@@ -77,7 +88,8 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     var pendingEndpoint = nga.entity('pending-endpoint');
     // set the fields of the user entity list view
     pendingEndpoint.listView().fields([
-        nga.field('clientId'),
+        nga.field('client.clientName')
+            .label('Client Name'),
         nga.field('hostName')
             .label('Host Name'),
         nga.field('apiKey')
@@ -86,7 +98,8 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     pendingEndpoint.listView().listActions(['edit', 'delete']);
 
     pendingEndpoint.creationView().fields([
-        nga.field('clientId'),
+        nga.field('client.clientName')
+            .label('Client Name'),
         nga.field('hostName')
             .label('Host Name'),
         nga.field('apiKey')
