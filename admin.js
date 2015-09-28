@@ -94,11 +94,8 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     var pendingEndpoint = nga.entity('pending-endpoint');
     // set the fields of the user entity list view
     pendingEndpoint.listView().fields([
-        nga.field('client.id', 'reference')
-            .label('Client Name')
-            .targetEntity(client)
-            .targetField(nga.field('name'))
-            .attributes({ placeholder: 'Select one' }),
+        nga.field('client.clientName')
+            .label('Client Name'),
         nga.field('hostName')
             .label('Host Name'),
         nga.field('apiKey')
@@ -107,8 +104,11 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     pendingEndpoint.listView().listActions(['edit', 'delete']);
 
     pendingEndpoint.creationView().fields([
-        nga.field('client.clientName')
-            .label('Client Name'),
+        nga.field('client.id', 'reference')
+            .label('Client Name')
+            .targetEntity(client)
+            .targetField(nga.field('name'))
+            .attributes({ placeholder: 'Select one' }),
         nga.field('hostName')
             .label('Host Name'),
         nga.field('apiKey')
