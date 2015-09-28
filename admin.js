@@ -1,12 +1,15 @@
 var myApp = angular.module('myApp', ['ng-admin']);
 
-// custom directives
-//myApp.directive('batchApprove', require('./js/batchApprove'));
+var sendash = 'https://sendash.com/';
+
+//myApp.controller('clientsCtrl', ClientsCtrl)
+//    .factory('clientApi', clientApi)
+//    .constant('clientApiUrl', sendash + 'clients');
 
 myApp.config(['NgAdminConfigurationProvider', function (nga) {
     // create an admin application
     var admin = nga.application('Sendash Admin')
-        .baseApiUrl('https://sendash.com/'); // main API endpoint
+        .baseApiUrl(sendash); // main API endpoint
     // create a user entity
     // the API endpoint for this entity will be 'http://jsonplaceholder.typicode.com/users/:id
     var user = nga.entity('user');
@@ -72,8 +75,11 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 
 
     endpoint.creationView().fields([
-        nga.field('client.name')
-            .label('Client Name'),
+        nga.field('client.id', 'reference')
+            .label('Client Name')
+            .targetEntity(client)
+            .targetField(nga.field('name'))
+            .attributes({ placeholder: 'Select one' }),
         nga.field('hostName')
             .label('Host Name'),
         nga.field('apiKey')
@@ -117,7 +123,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
             .label('Received'),
         nga.field('commits')
     ]);
-    githubPayload.listView().title('Github Payloads List')
+    githubPayload.listView().title('Github Payloads List');
     githubPayload.readOnly();
 
     admin.addEntity(githubPayload);
@@ -129,6 +135,11 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
             .addChild(nga.menu(pendingEndpoint).icon('<span class="glyphicon glyphicon-tasks"></span>'))
             .addChild(nga.menu(githubPayload).icon('<span class="glyphicon glyphicon-object-align-vertical"></span>'))
     );
+
+
+    var clientData = nga.entity('clients')
+        .baseApiUrl(admin._baseApiUrl) // The base API endpoint can be customized by entity
+        .identifier(nga.field('id')); // you can optionally customize the identifier used in the api ('id' by default)
 
 
     nga.application().debug(true);
