@@ -40,30 +40,16 @@ define(function () {
                             rawEntries = response.data;
                             return rawEntries;
                         })
-                        .then(rawEntries => ReadQueries.getFilteredReferenceData(exportView.getNonOptimizedReferences(), rawEntries))
-                        .then(nonOptimizedReference => {
-                            nonOptimizedReferencedData = nonOptimizedReference;
-                            return ReadQueries.getOptimizedReferencedData(exportView.getOptimizedReferences(), rawEntries);
-                        })
-                        .then(optimizedReference => {
-                            optimizedReferencedData = optimizedReference;
-                            var references = exportView.getReferences(),
-                                referencedData = angular.extend(nonOptimizedReferencedData, optimizedReferencedData),
-                                referencedEntries;
-
-                            for (var name in referencedData) {
-                                referencedEntries = AdminDescription.getEntryConstructor().createArrayFromRest(
-                                    referencedData[name],
+                        .then(rawEntries => ReadQueries.getReferenceData(exportView.fields(), rawEntries))
+                        .then(referenceData => {
+                            const references = exportView.getReferences();
+                            for (var name in referenceData) {
+                                AdminDescription.getEntryConstructor().createArrayFromRest(
+                                    referenceData[name],
                                     [references[name].targetField()],
                                     references[name].targetEntity().name(),
                                     references[name].targetEntity().identifier().name()
-                                    
-                                );
-
-                                scope.datastore.setEntries(
-                                    references[name].targetEntity().uniqueId + '_values',
-                                    referencedEntries
-                                );
+                                ).map(entry => scope.datastore.addEntry(references[name].targetEntity().uniqueId + '_values', entry));
                             }
                         })
                         .then(function () {
@@ -91,7 +77,7 @@ define(function () {
             template:
 `<span ng-if="has_export">
     <a class="btn btn-default" ng-click="exportToCsv()">
-        <span class="glyphicon glyphicon-download" aria-hidden="true"></span>&nbsp;{{ ::label }}
+        <span class="glyphicon glyphicon-download" aria-hidden="true"></span>&nbsp;<span class="hidden-xs">{{ ::label }}</span>
     </a>
 </span>`
         };
