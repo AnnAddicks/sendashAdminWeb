@@ -1,5 +1,8 @@
-node_modules/
+.idea
+node_modules
+dist
+.tmp
+.sass-cache
+*-compiled.js
+*-compiled.js.map
 build/
-.idea/
-bundle.js
-npm-debug.log
