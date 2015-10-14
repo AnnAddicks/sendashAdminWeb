@@ -5,7 +5,7 @@
 //const sendash = 'https://sendash.com/';
 const sendash = 'http://localhost:8191/sendash/api/admin/';
 
-adminApp.config(['NgAdminConfigurationProvider', function (nga) {
+adminApp.config(['NgAdminConfigurationProvider', 'RestangularProvider', function (nga, RestangularProvider) {
     // create an admin application
     var admin = nga.application('Sendash Admin')
         .baseApiUrl(sendash);
@@ -175,8 +175,8 @@ adminApp.controller('username', ['$scope', '$window', '$location', function($sco
 
 
 
-run.$inject = ['$rootScope', '$location',  '$http', 'AuthenticationService'];
-function run($rootScope, $location,  $http, AuthenticationService) {
+run.$inject = ['$rootScope', '$location',  '$http', 'AuthenticationService', 'Restangular'];
+function run($rootScope, $location,  $http, AuthenticationService, Restangular) {
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         // redirect to login page if not logged in and trying to access a restricted page
@@ -184,6 +184,10 @@ function run($rootScope, $location,  $http, AuthenticationService) {
         var loggedIn = AuthenticationService.IsAuthenticated();
         if (restrictedPage && !loggedIn) {
             $location.path('/login');
+            Restangular.setDefaultHeaders({});
+        }
+        else {
+            Restangular.setDefaultHeaders({'Authorization': 'Bearer ' + AuthenticationService.GetToken()});
         }
     });
 }

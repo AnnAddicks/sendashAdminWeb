@@ -13,6 +13,7 @@
         service.SetCredentials = SetCredentials;
         service.ClearCredentials = ClearCredentials;
         service.IsAuthenticated = IsAuthenticated;
+        service.GetToken = GetToken;
 
         return service;
 
@@ -66,6 +67,10 @@
         function ClearCredentials() {
             $window.sessionStorage.removeItem("userInfo");
             $http.defaults.headers.common.Authorization = 'Basic ';
+        }
+
+        function GetToken() {
+            return JSON.parse($window.sessionStorage.getItem('userInfo')).accessToken;
         }
     }
 
