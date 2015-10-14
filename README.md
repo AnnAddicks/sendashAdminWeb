@@ -1,4 +1,4 @@
 Sendash Admin Web
 ==============================
 
-AngularJS Administration GUI for sendash.  
+AngularJS Administration GUI for sendash.

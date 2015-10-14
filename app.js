@@ -3,7 +3,7 @@
         .run(run);
 
 //const sendash = 'https://sendash.com/';
-const sendash = 'http://localhost:8191/sendash/';
+const sendash = 'http://localhost:8191/sendash/api/admin/';
 
 adminApp.config(['NgAdminConfigurationProvider', function (nga) {
     // create an admin application
