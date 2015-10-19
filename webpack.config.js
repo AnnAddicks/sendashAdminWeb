@@ -1,11 +1,11 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-    entry: ["./app.js"],
+    entry: ["./sendashAdminWeb/app.js"],
     output: {
-        path: __dirname + "/build",
+        path: __dirname + "/sendashAdminWeb/build",
         filename: "app.js",
-        publicPath: "/build"
+        publicPath: "/sendashAdminWeb/build"
     },
     module: {
         loaders: [
