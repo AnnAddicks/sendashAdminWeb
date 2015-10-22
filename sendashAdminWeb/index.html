@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Sendash Admin</title>
+    <link rel="stylesheet" href="./build/ng-admin.min.css" />
+</head>
+<body ng-app="app">
+    <script type="text/javascript">
+        if (!window.sessionStorage.getItem('userInfo')) {
+            window.location.href = "#/login";
+        }
+        else {
+            var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+            var username = userInfo.username;
+        }
+
+        function logout() {
+            window.sessionStorage.removeItem('userInfo');
+            window.location.href = "#/login";
+        }
+    </script>
+    <div ui-view></div>
+    <div class="credits text-center">
+        <p>
+            <a href="http://sendash.com/">Sendash</a>
+        </p>
+
+    </div>
+
+
+    <script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="./build/ng-admin.min.js"></script>
+
+    <script src="build/app.js"></script>
+    <script src="app-services/authentication.service.js"></script>
+    <script src="app-services/flash.service.js"></script>
+    <script src="login/login.controller.js"></script>
+    <script src="register/register.controller.js"></script>
+</body>
+</html>
