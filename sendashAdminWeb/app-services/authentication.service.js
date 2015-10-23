@@ -20,23 +20,21 @@
         function Login(username, password, callback) {
             var deferred = $q.defer();
             //curl -X POST -vu sendashWebApp:GoGoVCHeckProApp http://localhost:8191/sendash/oauth/token -H "Accept: application/json" -d "password=password&username=ann.addicks@test.com&grant_type=password&scope=read%20write&client_secret=GoGoVCHeckProApp&client_id=sendashWebApp"
-
             var user = {'username': username,
-                        'password': password,
-                        'grant_type': 'password',
-                        'scope': 'read write',
-                        'client_id': 'sendashWebApp',
-                        'client_secret': 'GoGoVCHeckProApp'};
-
-            var userInfo = {};
-            var authdata = Base64.encode(username + ':' + password);
-            //$http.defaults.headers.common['Authorization'] = 'Basic ' + authdata;
-            $http.defaults.headers.common['Authorization'] = 'Basic ' + btoa(username + ':' + password);
-            $http({
-                method: 'GET',
-                url: "http://localhost:8191/sendash/api/me",
-                data: $.param(user),
-                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+                         'password': password,
+                         'grant_type': 'password',
+                         'scope': 'read write',
+                         'client_id': 'sendashWebApp',
+                         'client_secret': 'GoGoVCHeckProApp'};
+ 
+             var userInfo = {};
+             var authdata = Base64.encode(user.client_id + ':' + user.client_secret);
+             $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata;
+             $http({
+                 method: 'POST',
+                 url: "http://localhost:8191/sendash/oauth/token",
+                 data: $.param(user),
+                 headers:{'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function(result) {
 
                 userInfo = {
