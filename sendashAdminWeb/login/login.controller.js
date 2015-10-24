@@ -20,10 +20,14 @@
             vm.dataLoading = true;
             var promise = AuthenticationService.Login(vm.username, vm.password)
                 .then(function(userInfo){
-                    AuthenticationService.SetCredentials(userInfo);
-                    $rootScope.username = userInfo.username;
-                    $location.path('/dashboard');
-
+                    var promise2 = AuthenticationService.SetCredentials(userInfo)
+                    .then(function(userInfo){
+                        $rootScope.username = userInfo.username;
+                        $location.path('/dashboard');
+                    }, function(failedReason) {
+                    FlashService.Error(failedReason);
+                    vm.dataLoading = false;
+                  })
                 }, function(failedReason) {
                     FlashService.Error(failedReason);
                     vm.dataLoading = false;

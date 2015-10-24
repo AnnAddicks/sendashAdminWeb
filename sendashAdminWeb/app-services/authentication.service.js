@@ -35,7 +35,7 @@
                  url: "http://localhost:8191/sendash/oauth/token",
                  data: $.param(user),
                  headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-            }).then(function(result) {
+              }).then(function(result) {
 
                 userInfo = {
                     accessToken: result.data.access_token,
@@ -45,16 +45,34 @@
 
                 deferred.resolve(userInfo);
 
-            }, function(error) {
+              }, function(error) {
                 deferred.reject(error);
-            });
+             });
 
             return deferred.promise;
         }
 
         function SetCredentials(userInfo) {
-            $window.sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+            var deferred = $q.defer();
             $http.defaults.headers.common['Authorization'] = 'Bearer ' + userInfo.accessToken;
+
+            $http({
+                 method: 'GET',
+                 url: "http://localhost:8191/sendash/api/me",
+                 headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+              }).then(function(result) {
+
+                userInfo["id"] = result.data.id;
+                userInfo["roles"] = result.data.roles; 
+
+                $window.sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+                deferred.resolve(userInfo);
+
+              }, function(error) {
+                deferred.reject(error);
+             });
+
+             return deferred.promise;
         }
 
         function IsAuthenticated() {
