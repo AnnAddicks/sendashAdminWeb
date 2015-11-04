@@ -17,7 +17,19 @@ adminApp.config(['NgAdminConfigurationProvider', 'RestangularProvider', function
         nga.field('firstName')
             .label('First Name'),
         nga.field('lastName')
-            .label('Last Name')
+            .label('Last Name'),
+        nga.field('roles', 'embedded_list')
+            .label('Roles')
+            .targetFields([ 
+                nga.field('name')
+                    .label('')
+            ]),
+        nga.field('client', embedded_list)
+            .targetFields([ 
+                nga.field('name')
+                    .label('')
+             ])
+
     ]);
     user.listView().listActions(['edit', 'delete']);
 
