@@ -24,7 +24,7 @@ adminApp.config(['NgAdminConfigurationProvider', 'RestangularProvider', function
                 nga.field('name')
                     .label('')
             ]),
-        nga.field('client', embedded_list)
+        nga.field('client', 'embedded_list')
             .targetFields([ 
                 nga.field('name')
                     .label('')
