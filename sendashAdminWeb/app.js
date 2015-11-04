@@ -18,18 +18,12 @@ adminApp.config(['NgAdminConfigurationProvider', 'RestangularProvider', function
             .label('First Name'),
         nga.field('lastName')
             .label('Last Name'),
-        nga.field('roles', 'embedded_list')
+        nga.field('roles', 'template')
             .label('Roles')
-            .targetFields([ 
-                nga.field('name')
-                    .label('')
-            ]),
+            .template('<div ng-repeat="n in ::entry.values[field.name()]">{{n.name}}</div>'),
         nga.field('clients', 'embedded_list')
-            .targetFields([ 
-                nga.field('name')
-                    .label('')
-             ])
-
+            .label('Clients')
+            .template('<div ng-repeat="n in ::entry.values[field.name()]">{{n.name}}</div>')
     ]);
     user.listView().listActions(['edit', 'delete']);
 
