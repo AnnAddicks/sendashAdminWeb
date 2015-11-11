@@ -5,6 +5,8 @@ var adminApp = angular
 //const sendash = 'https://sendash.com/';
 const sendash = 'http://localhost:8191/sendash/api/admin/';
 
+adminApp.directive('clientSummary', require('./app-services/clientSummary'));
+
 adminApp.config(['NgAdminConfigurationProvider', 'RestangularProvider', function (nga, RestangularProvider) {
     // create an admin application
     var admin = nga.application('Sendash Admin')
@@ -55,7 +57,8 @@ adminApp.config(['NgAdminConfigurationProvider', 'RestangularProvider', function
             .label('Last Name'),
         nga.field('roles', 'choice')
             .choices([{label: "User", value: "1"}, {label: "Admin", value: "2"}]),
-        nga.field('clients')
+        nga.field('clients', 'template')
+            .template('<client-summary></client-summary>')
     ]);
     // use the same fields for the editionView as for the creationView
     user.editionView().fields(user.creationView().fields());
