@@ -54,7 +54,7 @@ adminApp.config(['NgAdminConfigurationProvider', 'RestangularProvider', function
         nga.field('lastName')
             .label('Last Name'),
         nga.field('roles', 'choice')
-            .choices([{label: "ROLE_USER", value: "1"}, {label: "ROLE_ADMIN", value: "2"}]),
+            .choices([{label: "User", value: "1"}, {label: "Admin", value: "2"}]),
         nga.field('clients')
     ]);
     // use the same fields for the editionView as for the creationView
