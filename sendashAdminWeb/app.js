@@ -10,6 +10,26 @@ adminApp.config(['NgAdminConfigurationProvider', 'RestangularProvider', function
     var admin = nga.application('Sendash Admin')
         .baseApiUrl(sendash);
 
+    var role = nga.entity('role');
+    role.readOnly();
+    admin.addEntity(role);
+
+
+    var client = nga.entity('client');
+    client.listView().fields([
+        nga.field('id'),
+        nga.field('name')
+    ]);
+    client.listView().listActions(['edit', 'delete']);
+
+    client.creationView().fields([
+        nga.field('name')
+
+    ]);
+    // use the same fields for the editionView as for the creationView
+    client.editionView().fields(client.creationView().fields());
+    admin.addEntity(client);
+
     var user = nga.entity('user');
     // set the fields of the user entity list view
     user.listView().fields([
@@ -26,36 +46,21 @@ adminApp.config(['NgAdminConfigurationProvider', 'RestangularProvider', function
             .template('<div ng-repeat="n in ::entry.values[field.name()]">{{n.name}}</div>')
     ]);
     user.listView().listActions(['edit', 'delete']);
-
+    
     user.creationView().fields([
         nga.field('email', 'email'),
         nga.field('firstName')
             .label('First Name'),
         nga.field('lastName')
-            .label('Last Name')
+            .label('Last Name'),
+        nga.field('roles', 'choice')
+            .choices([{label: "ROLE_USER", value: "1"}, {label: "ROLE_ADMIN", value: "2"}]),
+        nga.field('clients')
     ]);
     // use the same fields for the editionView as for the creationView
     user.editionView().fields(user.creationView().fields());
 
     admin.addEntity(user);
-
-    var client = nga.entity('client');
-    // set the fields of the user entity list view
-    client.listView().fields([
-        nga.field('id'),
-        nga.field('name')
-    ]);
-    client.listView().listActions(['edit', 'delete']);
-
-    client.creationView().fields([
-        nga.field('name')
-
-    ]);
-    // use the same fields for the editionView as for the creationView
-    client.editionView().fields(client.creationView().fields());
-    admin.addEntity(client);
-
-
 
     var endpoint = nga.entity('endpoint');
     // set the fields of the user entity list view
@@ -179,6 +184,11 @@ adminApp.controller('username', ['$scope', '$window', '$location', function($sco
     }
 }]);
 
+adminApp.controller('userRoleCtl', ['$scope', 'UserRoleService', function($scope, UserRoleService) { 
+    $scope.userRoles = UserRoleService.UserRoles();
+}]);
+
+
 
 
 run.$inject = ['$rootScope', '$location',  '$http', 'AuthenticationService', 'Restangular'];
@@ -193,7 +203,7 @@ function run($rootScope, $location,  $http, AuthenticationService, Restangular) 
             Restangular.setDefaultHeaders({});
         }
         else {
-            //Restangular.setDefaultHeaders({'Authorization': 'Bearer ' + AuthenticationService.GetToken()});
+            Restangular.setDefaultHeaders({'Authorization': 'Bearer ' + AuthenticationService.GetToken()});
         }
     });
 }
