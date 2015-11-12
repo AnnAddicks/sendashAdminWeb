@@ -57,8 +57,11 @@ adminApp.config(['NgAdminConfigurationProvider', 'RestangularProvider', function
             .label('Last Name'),
         nga.field('roles', 'choice')
             .choices([{label: "User", value: "1"}, {label: "Admin", value: "2"}]),
-        nga.field('clients', 'template')
-            .template('<client-summary></client-summary>')
+        nga.field('clients', 'reference_many')
+            .targetEntity(client)
+            .targetField(nga.field('name'))
+            .validation({required: true})
+
     ]);
     // use the same fields for the editionView as for the creationView
     user.editionView().fields(user.creationView().fields());
