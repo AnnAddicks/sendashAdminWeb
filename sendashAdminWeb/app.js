@@ -5,7 +5,7 @@ var adminApp = angular
 //const sendash = 'https://sendash.com/';
 const sendash = 'http://localhost:8191/sendash/api/admin/';
 
-adminApp.directive('clientSummary', require('./app-services/clientSummary'));
+
 
 adminApp.config(['NgAdminConfigurationProvider', 'RestangularProvider', function (nga, RestangularProvider) {
     // create an admin application
