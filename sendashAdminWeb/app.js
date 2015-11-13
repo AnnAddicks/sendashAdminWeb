@@ -57,7 +57,8 @@ adminApp.config(['NgAdminConfigurationProvider', 'RestangularProvider', function
             .label('Last Name'),
         nga.field('roles', 'choice')
             .choices([{label: "User", value: "1"}, {label: "Admin", value: "2"}]),
-        nga.field('clients', 'reference_many')
+        nga.field('clientIds', 'reference_many')
+            .label('Clients')
             .targetEntity(client)
             .targetField(nga.field('name'))
             .validation({required: true})
